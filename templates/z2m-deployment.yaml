@@ -14,25 +14,23 @@ spec:
         app: z2m
     spec:
       nodeSelector:
-        kubernetes.io/hostname: raspberry-rua
+        kubernetes.io/hostname: pi-master
       containers:
       - name: z2m
-        image: koenkk/zigbee2mqtt:1.36.1
+        image: koenkk/zigbee2mqtt:latest
         env:
           - name: TZ
-            value: Europe/London
+            value: Europe/Berlin
           - name: ZIGBEE2MQTT_CONFIG_MQTT_SERVER
             value: "mqtt://mosquitto-service.homeassistant.svc.cluster.local:8883"
           - name: ZIGBEE2MQTT_CONFIG_MQTT_USER
             value: "mqtt-user"
           - name: ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD
-            value: "password"
-          - name: ZIGBEE2MQTT_CONFIG_HOMEASSISTANT
-            value: "true"
+            value: "QMYUT680"
           - name: ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER
-            value: "ezsp"
+            value: "ember"
           - name: ZIGBEE2MQTT_CONFIG_SERIAL_PORT
-            value: "/dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20230509161227-if00"
+            value: "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_7408a8e212e7ed11b5f6d5770b2af5ab-if00-port0"
         securityContext:
           privileged: true
         ports:
@@ -43,7 +41,7 @@ spec:
           - name: z2m-udev
             mountPath: /run/udev
           - name: ttyacm
-            mountPath: "/dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20230509161227-if00"
+            mountPath: "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_7408a8e212e7ed11b5f6d5770b2af5ab-if00-port0"
       volumes:
         - name: z2m-data
           persistentVolumeClaim:
@@ -53,4 +51,4 @@ spec:
             path: /run/udev
         - name: ttyacm
           hostPath:
-            path: "/dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20230509161227-if00"
+            path: "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_7408a8e212e7ed11b5f6d5770b2af5ab-if00-port0"
